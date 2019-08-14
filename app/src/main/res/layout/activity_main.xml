@@ -8,38 +8,40 @@
 
     <TextView
         android:id="@+id/IP_TextView"
-        android:layout_width="85dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="目标IP地址："
-        app:layout_constraintRight_toLeftOf="@id/IP_EditText"
-        app:layout_constraintBottom_toBottomOf="@+id/IP_EditText"
-        app:layout_constraintTop_toTopOf="@+id/IP_EditText"
+        app:layout_constraintBaseline_toBaselineOf="@id/IP_EditText"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/IP_EditText"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:text="192.168.1.136"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/IP_TextView"
         />
 
     <TextView
         android:id="@+id/Port_TextView"
-        android:layout_width="85dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="目标端口号："
-        app:layout_constraintRight_toLeftOf="@id/Port_EditText"
-        app:layout_constraintBottom_toBottomOf="@+id/Port_EditText"
-        app:layout_constraintTop_toTopOf="@+id/Port_EditText"/>
-
-    <EditText
-        android:id="@+id/IP_EditText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="192.168.1.136"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginLeft="20dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/IP_EditText"
+        app:layout_constraintLeft_toRightOf="@id/IP_EditText"
+        />
 
     <EditText
         android:id="@+id/Port_EditText"
-        android:layout_width="300dp"
+        android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:text="8888"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IP_EditText"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/Port_TextView"
+        />
 
     <Button
         android:id="@+id/ConnectBtn"
