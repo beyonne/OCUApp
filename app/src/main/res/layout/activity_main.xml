@@ -10,7 +10,7 @@
         android:id="@+id/IP_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="目标IP地址："
+        android:text="@string/ip_name"
         app:layout_constraintBaseline_toBaselineOf="@id/IP_EditText"
         app:layout_constraintStart_toStartOf="parent"
         />
@@ -22,7 +22,8 @@
         android:text="192.168.1.136"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/IP_TextView"
-        />
+        android:inputType=""
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/Port_TextView"
@@ -73,7 +74,8 @@
         android:hint="要发送的内容"
         android:text="A5 C0 01 02 00 02 05 C0 00 47 3E"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SendBtn"/>
+        app:layout_constraintTop_toBottomOf="@+id/SendBtn"
+        android:inputType="" />
 
     <EditText
         android:id="@+id/Recv_EditText"
@@ -81,7 +83,9 @@
         android:layout_height="wrap_content"
         android:hint="接收的内容"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Send_EditText"/>
+        app:layout_constraintTop_toBottomOf="@+id/Send_EditText"
+        android:autofillHints=""
+        android:inputType="" />
 
     <LinearLayout
         android:layout_width="match_parent"

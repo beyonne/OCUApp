@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OCUApp</string>
+    <string name="ip_name">目标IP地址</string>
 </resources>
