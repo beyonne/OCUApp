@@ -30,10 +30,11 @@ public class Frame {
     private final int FRAME_MAX_LENGTH = 100;
     //    private final byte Framestart = (byte)0xA5;
 //    private final byte DevType = (byte)0xC0;
-    private final byte Framestart = (byte)0xA6;
-    private final byte DevType = (byte)0xB1;
+    private final byte Framestart = (byte)0xA5;
+    private final byte DevType = (byte)0xC0;
     private final byte SrcAddr = 0x02;
     private final byte DesAddr = 0x01;
+    private int temp = 0;
     private int Length;
     public byte Cmd;
     private int Crcd;
@@ -86,53 +87,50 @@ public class Frame {
                 break;
             case 4://长度域高８位
                 State = 5;
-                Length = (dat<<24);
+                temp = dat;
+                temp &= 0x00FF;
+                Length = temp<<8;
                 pData[Index++] = dat;
                 break;
-            case 5://长度域高８位
+            case 5://长度域低８位
                 State = 6;
-                Length |= (dat<<16);
+                temp = dat;
+                temp &= 0x00FF;
+                Length |= temp;
                 pData[Index++] = dat;
                 break;
-            case 6://长度域高８位
-                State = 7;
-                Length |= (dat<<8);
-                pData[Index++] = dat;
-                break;
-            case 7://长度域低８位
-                State = 8;
-                Length |= dat;
-                pData[Index++] = dat;
-                break;
-            case 8://命令字
+            case 6://命令字
                 Cmd = dat;
                 pData[Index++] = dat;
                 if (Length==0)
                 {
-                    State = 10;
+                    State = 8;
                 }
                 else
                 {
-                    State = 9;
+                    State = 7;
                 }
                 break;
-            case 9://数据域
-                if (Index<(Length+9))
+            case 7://数据域
+                if (Index<(Length+7))
                 {
                     pData[Index++] = dat;
-                    if (Index >= (Length+9))
+                    if (Index >= (Length+7))
                     {
-                        State = 10;
+                        State = 8;
                     }
                 }
                 break;
-            case 10://CRC高８位
-                State = 11;
-                Crcd = ((int)dat<<8);
-                Crcd &= (int)0xFFFF;
+            case 8://CRC高８位
+                State = 9;
+                temp = dat;
+                temp &= 0x00FF;
+                Crcd = temp<<8;
                 break;
-            case 11:
-                Crcd |= (0x00FF&dat);
+            case 9:
+                temp = dat;
+                temp &= 0x00FF;
+                Crcd |= temp;
                 int CRC_Tem = Crcd;
                 Frame_OK = CRC.CRC16Check(pData,Index,CRC_Tem);
                 State = 0;

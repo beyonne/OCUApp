@@ -135,19 +135,20 @@ public class MainActivity extends AppCompatActivity {
 //                    int[] SendBuff = new int[]{0xA5,0xC0,0x01,0x02,0x00,0x02,0x05,0xC0,0x00,0x47,0x3E};
                     //A6 B1 01 02 00 00 00 01 05 B1 56 1A查询避障检测板
 //                    int[] SendBuff = new int[]{0xA6,0xB1,0x01,0x02,0x00,0x00,0x00,0x01,0x05,0xB1,0x56,0x1A};
+                    //A5 C0 01 02 00 02 05 C0 00 47 3E
+//                    int[] SendBuff = new int[]{0xA5, 0xC0, 0x01, 0x02, 0x00, 0x02, 0x05, 0xC0, 0x00, 0x47, 0x3E};
                     SendLen=0;
-                    SendByteArray[SendLen++] = (byte)0xA6;
-                    SendByteArray[SendLen++] = (byte)0xB1;
+                    SendByteArray[SendLen++] = (byte)0xA5;
+                    SendByteArray[SendLen++] = (byte)0xC0;
                     SendByteArray[SendLen++] = (byte)0x01;
                     SendByteArray[SendLen++] = (byte)0x02;
                     SendByteArray[SendLen++] = (byte)0x00;
-                    SendByteArray[SendLen++] = (byte)0x00;
-                    SendByteArray[SendLen++] = (byte)0x00;
-                    SendByteArray[SendLen++] = (byte)0x01;
+                    SendByteArray[SendLen++] = (byte)0x02;
                     SendByteArray[SendLen++] = (byte)0x05;
-                    SendByteArray[SendLen++] = (byte)0xB1;
-                    SendByteArray[SendLen++] = (byte)0x56;
-                    SendByteArray[SendLen++] = (byte)0x1A;
+                    SendByteArray[SendLen++] = (byte)0xC0;
+                    SendByteArray[SendLen++] = (byte)0x00;
+                    SendByteArray[SendLen++] = (byte)0x47;
+                    SendByteArray[SendLen++] = (byte)0x3E;
                     Send_Thread send_Thread = new Send_Thread();
                     send_Thread.start();
                 }

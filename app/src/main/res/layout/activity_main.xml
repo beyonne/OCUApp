@@ -29,7 +29,7 @@
         android:id="@+id/IP_EditText"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="192.168.15.1"
+        android:text="192.168.1.136"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -37,7 +37,7 @@
         android:id="@+id/Port_EditText"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="8080"
+        android:text="8888"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IP_EditText"/>
 
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="要发送的内容"
-        android:text="A6 B1 01 02 00 00 00 01 05 B1 56 1A"
+        android:text="A5 C0 01 02 00 02 05 C0 00 47 3E"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SendBtn"/>
 
