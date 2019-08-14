@@ -7,12 +7,141 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/IP_TextView"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:text="目标IP地址："
+        app:layout_constraintRight_toLeftOf="@id/IP_EditText"
+        app:layout_constraintBottom_toBottomOf="@+id/IP_EditText"
+        app:layout_constraintTop_toTopOf="@+id/IP_EditText"
+        />
+
+    <TextView
+        android:id="@+id/Port_TextView"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:text="目标端口号："
+        app:layout_constraintRight_toLeftOf="@id/Port_EditText"
+        app:layout_constraintBottom_toBottomOf="@+id/Port_EditText"
+        app:layout_constraintTop_toTopOf="@+id/Port_EditText"/>
+
+    <EditText
+        android:id="@+id/IP_EditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="192.168.15.1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/Port_EditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="8080"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IP_EditText"/>
+
+    <Button
+        android:id="@+id/ConnectBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:onClick="ConnectBtn_clickHander"
+        android:text="连接"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/SendBtn"
+        app:layout_constraintTop_toBottomOf="@id/Port_EditText"
+        />
+
+    <Button
+        android:id="@+id/SendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="SendBtn_clickHander"
+        android:text="发送"
+        app:layout_constraintLeft_toRightOf="@id/ConnectBtn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Port_EditText"
+        />
+
+    <EditText
+        android:id="@+id/Send_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="要发送的内容"
+        android:text="A6 B1 01 02 00 00 00 01 05 B1 56 1A"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SendBtn"/>
+
+    <EditText
+        android:id="@+id/Recv_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="接收的内容"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Send_EditText"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/tv_recvdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="top"
+            android:singleLine="true"
+            android:text=""
+            android:hint="接收的内容"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/CheckVerBtn"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="CheckVerBtn_clickHander"
+            android:text="查询板卡号"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/CloseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="CloseBtn_clickHander"
+            android:text="关闭"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Hello World!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
