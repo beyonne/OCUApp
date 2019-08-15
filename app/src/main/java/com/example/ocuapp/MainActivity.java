@@ -162,42 +162,42 @@ public class MainActivity extends AppCompatActivity {
                 xytemp = ("Y轴坐标："+PosY);
                 TV_Y.setText(xytemp);
 
-                if(PosXLast != PosX || PosYLast != PosY)
-                {
-                    PosXLast = PosX;
-                    PosYLast = PosY;
-                    if (socket!=null)
-                    {
-                        if (socket.isConnected())
-                        {
-                            if (!socket.isOutputShutdown())
-                            {
-                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
-
-                                SendBuff[11] = (byte)(PosX>>8);
-                                SendBuff[12] = (byte)PosX;
-                                SendBuff[13] = (byte)(PosY>>8);
-                                SendBuff[14] = (byte)PosY;
-                                int crctem = CRC.getCRC1021(SendBuff,31);
-                                SendBuff[31] = (byte)(crctem>>8);
-                                SendBuff[32] = (byte)crctem;
-
-                                SendLen=0;
-                                for (int i=0;i<SendBuff.length;i++)
-                                {
-                                    SendByteArray[SendLen++] = SendBuff[i];
-                                }
-                                Send_Thread send_Thread = new Send_Thread();
-                                send_Thread.start();
-                            }
-                        }
-                        else
-                        {
-                            Log.i("未连接", "Socket 未连接，请先连接！");
-                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
-                        }
-                    }
-                }
+//                if(PosXLast != PosX || PosYLast != PosY)
+//                {
+//                    PosXLast = PosX;
+//                    PosYLast = PosY;
+////                    if (socket!=null)
+////                    {
+////                        if (socket.isConnected())
+////                        {
+////                            if (!socket.isOutputShutdown())
+////                            {
+////                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
+////
+////                                SendBuff[11] = (byte)(PosX>>8);
+////                                SendBuff[12] = (byte)PosX;
+////                                SendBuff[13] = (byte)(PosY>>8);
+////                                SendBuff[14] = (byte)PosY;
+////                                int crctem = CRC.getCRC1021(SendBuff,31);
+////                                SendBuff[31] = (byte)(crctem>>8);
+////                                SendBuff[32] = (byte)crctem;
+////
+////                                SendLen=0;
+////                                for (int i=0;i<SendBuff.length;i++)
+////                                {
+////                                    SendByteArray[SendLen++] = SendBuff[i];
+////                                }
+////                                Send_Thread send_Thread = new Send_Thread();
+////                                send_Thread.start();
+////                            }
+////                        }
+////                        else
+////                        {
+////                            Log.i("未连接", "Socket 未连接，请先连接！");
+////                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
+////                        }
+////                    }
+//                }
             }
 
             @Override
@@ -208,42 +208,42 @@ public class MainActivity extends AppCompatActivity {
                 TV_X.setText(xytemp);
                 xytemp = ("Y轴坐标："+PosY);
                 TV_Y.setText(xytemp);
-                if(PosXLast != PosX || PosYLast != PosY)
-                {
-                    PosXLast = PosX;
-                    PosYLast = PosY;
-                    if (socket!=null)
-                    {
-                        if (socket.isConnected())
-                        {
-                            if (!socket.isOutputShutdown())
-                            {
-                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
-
-                                SendBuff[11] = (byte)(PosX>>8);
-                                SendBuff[12] = (byte)PosX;
-                                SendBuff[13] = (byte)(PosY>>8);
-                                SendBuff[14] = (byte)PosY;
-                                int crctem = CRC.getCRC1021(SendBuff,31);
-                                SendBuff[31] = (byte)(crctem>>8);
-                                SendBuff[32] = (byte)crctem;
-
-                                SendLen=0;
-                                for (int i=0;i<SendBuff.length;i++)
-                                {
-                                    SendByteArray[SendLen++] = SendBuff[i];
-                                }
-                                Send_Thread send_Thread = new Send_Thread();
-                                send_Thread.start();
-                            }
-                        }
-                        else
-                        {
-                            Log.i("未连接", "Socket 未连接，请先连接！");
-                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
-                        }
-                    }
-                }
+//                if(PosXLast != PosX || PosYLast != PosY)
+//                {
+//                    PosXLast = PosX;
+//                    PosYLast = PosY;
+////                    if (socket!=null)
+////                    {
+////                        if (socket.isConnected())
+////                        {
+////                            if (!socket.isOutputShutdown())
+////                            {
+////                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
+////
+////                                SendBuff[11] = (byte)(PosX>>8);
+////                                SendBuff[12] = (byte)PosX;
+////                                SendBuff[13] = (byte)(PosY>>8);
+////                                SendBuff[14] = (byte)PosY;
+////                                int crctem = CRC.getCRC1021(SendBuff,31);
+////                                SendBuff[31] = (byte)(crctem>>8);
+////                                SendBuff[32] = (byte)crctem;
+////
+////                                SendLen=0;
+////                                for (int i=0;i<SendBuff.length;i++)
+////                                {
+////                                    SendByteArray[SendLen++] = SendBuff[i];
+////                                }
+////                                Send_Thread send_Thread = new Send_Thread();
+////                                send_Thread.start();
+////                            }
+////                        }
+////                        else
+////                        {
+////                            Log.i("未连接", "Socket 未连接，请先连接！");
+////                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
+////                        }
+////                    }
+//                }
             }
         });
         //级别
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (InterruptedException e) {
                         }
                     } while (!isStop);
-//                    count ++;
+                    count++;
                 }
             };
         }
@@ -319,8 +319,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTextView(){
 //        texttime.setText(String.valueOf(count));
-        count++;
-        viewtxt.setText(count);
+        viewtxt.setText(String.valueOf(count));
+        if (socket!=null)
+        {
+            if (socket.isConnected())
+            {
+                if (!socket.isOutputShutdown())
+                {
+                    byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
+
+                    SendBuff[11] = (byte)(PosX>>8);
+                    SendBuff[12] = (byte)PosX;
+                    SendBuff[13] = (byte)(PosY>>8);
+                    SendBuff[14] = (byte)PosY;
+                    int crctem = CRC.getCRC1021(SendBuff,31);
+                    SendBuff[31] = (byte)(crctem>>8);
+                    SendBuff[32] = (byte)crctem;
+
+                    SendLen=0;
+                    for (int i=0;i<SendBuff.length;i++)
+                    {
+                        SendByteArray[SendLen++] = SendBuff[i];
+                    }
+                    Send_Thread send_Thread = new Send_Thread();
+                    send_Thread.start();
+                }
+            }
+            else
+            {
+                Log.i("未连接", "Socket 未连接，请先连接！");
+                Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
+            }
+        }
     }
 
     public void ConnectBtn_clickHander(View v)
