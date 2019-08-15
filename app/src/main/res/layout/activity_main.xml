@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rocker="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -84,70 +85,95 @@
         android:hint="接收的内容"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Send_EditText"
-        android:autofillHints=""
         android:inputType="" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/tv_recvdata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/Recv_EditText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:hint="接收的内容"
+        android:textColor="#000000"
+        android:textSize="17sp" />
+
+    <Button
+        android:id="@+id/CheckVerBtn"
+        style="@style/AppTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
+        android:onClick="CheckVerBtn_clickHander"
+        android:text="查询板卡号"
+        app:layout_constraintTop_toBottomOf="@+id/tv_recvdata"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/CloseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="CloseBtn_clickHander"
+        android:text="关闭"
+        app:layout_constraintLeft_toRightOf="@+id/CheckVerBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/CheckVerBtn"
+        />
+
+    <TextView
+        android:id="@+id/textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Hello World!"
+        app:layout_constraintTop_toBottomOf="@+id/CloseBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textviewX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X轴坐标："
+        app:layout_constraintTop_toBottomOf="@+id/textview1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/textviewY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Y轴坐标："
+        app:layout_constraintTop_toBottomOf="@+id/textviewX"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <Button
+        android:id="@+id/TimerOpenCloseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="TimerOpenCloseBtn_clickHander"
+        android:text="开启定时器"
+        app:layout_constraintTop_toBottomOf="@+id/textviewY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!--摇杆-->
+    <com.example.ocuapp.MyRockerView
+        android:id="@+id/rockerXY_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-        <TextView
-            android:id="@+id/tv_recvdata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="top"
-            android:singleLine="true"
-            android:text=""
-            android:hint="接收的内容"
-            android:textColor="#000000"
-            android:textSize="17sp" />
-
-        <Button
-            android:id="@+id/CheckVerBtn"
-            style="@style/AppTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:onClick="CheckVerBtn_clickHander"
-            android:text="查询板卡号"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/CloseBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:onClick="CloseBtn_clickHander"
-            android:text="关闭"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <TextView
-            android:id="@+id/textview1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        rocker:areaBackground="@mipmap/rocker_base"
+        rocker:rockerBackground="@mipmap/rocker"
+        rocker:rockerSpeedLevel="10"
+        rocker:rockerCallBackMode="CALL_BACK_MODE_STATE_CHANGE"
+        rocker:rockerScale="0.5"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

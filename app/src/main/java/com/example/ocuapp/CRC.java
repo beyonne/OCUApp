@@ -158,4 +158,13 @@ public class CRC {
         return (Crcd==CRCTemp);
     }
 
+    public static int CRC16Check(byte[] SrcData,int len)
+    {
+        int CRCTemp;
+//        CRCTemp = CRC16_CCITT(SrcData);
+
+        CRCTemp = getCRC1021(SrcData,len);
+        return (CRCTemp);
+    }
+
 }

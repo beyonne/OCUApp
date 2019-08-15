@@ -3,6 +3,8 @@ package com.example.ocuapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +36,27 @@ public class MainActivity extends AppCompatActivity {
     Socket socket = null;//定义socket
     private OutputStream outputStream = null;//定义输出流
     private InputStream inputStream = null;//定义输入流
-    private PrintWriter pw;
+//    private PrintWriter pw;
+    //虚拟摇杆
+    private MyRockerView mRockerViewXY;
+    TextView TV_X;
+    TextView TV_Y;
+    int PosX;
+    int PosY;
+    int PosXLast;
+    int PosYLast;
+    int XYRate;
+    String xytemp;
+    private Timer mTimer = null;
+    private TimerTask mTimerTask = null;
+    private Handler mHandler = null;
+    private static int count = 0;
+//    private boolean isPause = false;
+    private boolean isStop = true;
+    private static int delay = 500; //1s
+    private static int period = 500; //1s
+    private static final int UPDATE_TEXTVIEW = 0;
+    private Button btTimerOpenClose = null;
 
     byte[] SendByteArray;
     int SendLen;
@@ -50,8 +74,253 @@ public class MainActivity extends AppCompatActivity {
         TVRecvData = (TextView) findViewById(R.id.tv_recvdata);
         Log.i("chushihua", "onCreate: 开始");
         viewtxt = (TextView)findViewById(R.id.textview1);
+        int count = 0;
         SendLen = 0;
         SendByteArray = new byte[12];
+
+        btTimerOpenClose = findViewById(R.id.TimerOpenCloseBtn);
+
+        mRockerViewXY = (MyRockerView) findViewById(R.id.rockerXY_View);//8方向
+        TV_X = findViewById(R.id.textviewX);
+        TV_Y = findViewById(R.id.textviewY);
+        XYRate = 32768/135;
+        //摇杆点击事件
+        initMyClick();
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case UPDATE_TEXTVIEW:
+                        updateTextView();
+                        default:
+                            break;
+                }
+            }
+        };
+    }
+
+    //摇杆点击事件
+    private void initMyClick() {
+        //xy轴
+        //方向
+        mRockerViewXY.setOnShakeListener(MyRockerView.DirectionMode.DIRECTION_8, new MyRockerView.OnShakeListener() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void direction(MyRockerView.Direction direction) {
+//                if (direction == MyRockerView.Direction.DIRECTION_CENTER){
+//                    directionXY = ("当前方向：中心");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_DOWN){
+//                    directionXY = ("当前方向：下");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_LEFT){
+//                    directionXY = ("当前方向：左");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_UP){
+//                    directionXY = ("当前方向：上");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_RIGHT){
+//                    directionXY = ("当前方向：右");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_DOWN_LEFT){
+//                    directionXY = ("当前方向：左下");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_DOWN_RIGHT){
+//                    directionXY = ("当前方向：右下");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_UP_LEFT){
+//                    directionXY = ("当前方向：左上");
+//                }else if (direction == MyRockerView.Direction.DIRECTION_UP_RIGHT){
+//                    directionXY = ("当前方向：右上");
+//                }
+//                Log.e(TAG, "XY轴"+directionXY);
+//                Log.e(TAG, "-----------------------------------------------" );
+//                directionXY_Text.setText(directionXY);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+        //角度
+        mRockerViewXY.setOnAngleChangeListener(new MyRockerView.OnAngleChangeListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void angle(double angle) {
+//                angleXY = ("当前角度："+angle);
+//                Log.e(TAG, "XY轴"+angleXY);
+//                angleXY_Text.setText(angleXY);
+            }
+
+            public void onDistanceShow(int xpos,int ypos)
+            {
+                PosX = xpos*XYRate;
+                PosY = ypos*XYRate;
+                xytemp = ("X轴坐标："+PosX);
+                TV_X.setText(xytemp);
+                xytemp = ("Y轴坐标："+PosY);
+                TV_Y.setText(xytemp);
+
+                if(PosXLast != PosX || PosYLast != PosY)
+                {
+                    PosXLast = PosX;
+                    PosYLast = PosY;
+                    if (socket!=null)
+                    {
+                        if (socket.isConnected())
+                        {
+                            if (!socket.isOutputShutdown())
+                            {
+                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
+
+                                SendBuff[11] = (byte)(PosX>>8);
+                                SendBuff[12] = (byte)PosX;
+                                SendBuff[13] = (byte)(PosY>>8);
+                                SendBuff[14] = (byte)PosY;
+                                int crctem = CRC.getCRC1021(SendBuff,31);
+                                SendBuff[31] = (byte)(crctem>>8);
+                                SendBuff[32] = (byte)crctem;
+
+                                SendLen=0;
+                                for (int i=0;i<SendBuff.length;i++)
+                                {
+                                    SendByteArray[SendLen++] = SendBuff[i];
+                                }
+                                Send_Thread send_Thread = new Send_Thread();
+                                send_Thread.start();
+                            }
+                        }
+                        else
+                        {
+                            Log.i("未连接", "Socket 未连接，请先连接！");
+                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(int xpos,int ypos) {
+                PosX = xpos*XYRate;
+                PosY = ypos*XYRate;
+                xytemp = ("X轴坐标："+PosX);
+                TV_X.setText(xytemp);
+                xytemp = ("Y轴坐标："+PosY);
+                TV_Y.setText(xytemp);
+                if(PosXLast != PosX || PosYLast != PosY)
+                {
+                    PosXLast = PosX;
+                    PosYLast = PosY;
+                    if (socket!=null)
+                    {
+                        if (socket.isConnected())
+                        {
+                            if (!socket.isOutputShutdown())
+                            {
+                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
+
+                                SendBuff[11] = (byte)(PosX>>8);
+                                SendBuff[12] = (byte)PosX;
+                                SendBuff[13] = (byte)(PosY>>8);
+                                SendBuff[14] = (byte)PosY;
+                                int crctem = CRC.getCRC1021(SendBuff,31);
+                                SendBuff[31] = (byte)(crctem>>8);
+                                SendBuff[32] = (byte)crctem;
+
+                                SendLen=0;
+                                for (int i=0;i<SendBuff.length;i++)
+                                {
+                                    SendByteArray[SendLen++] = SendBuff[i];
+                                }
+                                Send_Thread send_Thread = new Send_Thread();
+                                send_Thread.start();
+                            }
+                        }
+                        else
+                        {
+                            Log.i("未连接", "Socket 未连接，请先连接！");
+                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
+                        }
+                    }
+                }
+            }
+        });
+        //级别
+        mRockerViewXY.setOnDistanceLevelListener(new MyRockerView.OnDistanceLevelListener() {
+            @Override
+            public void onDistanceLevel(int level) {
+//                levelXY = ("当前距离级别："+level);
+//                Log.e(TAG, "XY轴"+levelXY);
+//                levelXY_Text.setText(levelXY);
+            }
+        });
+    }
+
+    public void TimerOpenCloseBtn_clickHander(View v)
+    {
+        if (isStop)
+        {
+            startTimer();
+            btTimerOpenClose.setText("关闭定时器");
+            isStop = false;
+        }
+        else
+        {
+            stopTimer();
+            btTimerOpenClose.setText("开启定时器");
+            isStop = true;
+        }
+    }
+
+    private void startTimer(){
+        if (mTimer == null)
+        {
+            mTimer = new Timer();
+        }
+        if (mTimerTask == null) {
+            mTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+//                    Log.i(TAG, "count: "+String.valueOf(count));
+                    sendMessage(UPDATE_TEXTVIEW);
+                    do {
+                        try {
+//                            Log.i(TAG, "sleep(1000)...");
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                        }
+                    } while (!isStop);
+//                    count ++;
+                }
+            };
+        }
+
+        if(mTimer != null && mTimerTask != null )
+            mTimer.schedule(mTimerTask, delay, period);
+    }
+    private void stopTimer(){
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
+        count = 0;
+    }
+    public void sendMessage(int id){
+        if (mHandler != null) {
+            Message message = Message.obtain(mHandler, id);
+            mHandler.sendMessage(message);
+        }
+    }
+
+    private void updateTextView(){
+//        texttime.setText(String.valueOf(count));
+        count++;
+        viewtxt.setText(count);
     }
 
     public void ConnectBtn_clickHander(View v)
