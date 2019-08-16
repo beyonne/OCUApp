@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         viewtxt = (TextView)findViewById(R.id.textview1);
         int count = 0;
         SendLen = 0;
-        SendByteArray = new byte[12];
+        SendByteArray = new byte[50];
 
         btTimerOpenClose = findViewById(R.id.TimerOpenCloseBtn);
 
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         default:
                             break;
                 }
+                super.handleMessage(msg);
             }
         };
     }
@@ -110,47 +111,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void direction(MyRockerView.Direction direction) {
-//                if (direction == MyRockerView.Direction.DIRECTION_CENTER){
-//                    directionXY = ("当前方向：中心");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_DOWN){
-//                    directionXY = ("当前方向：下");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_LEFT){
-//                    directionXY = ("当前方向：左");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_UP){
-//                    directionXY = ("当前方向：上");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_RIGHT){
-//                    directionXY = ("当前方向：右");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_DOWN_LEFT){
-//                    directionXY = ("当前方向：左下");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_DOWN_RIGHT){
-//                    directionXY = ("当前方向：右下");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_UP_LEFT){
-//                    directionXY = ("当前方向：左上");
-//                }else if (direction == MyRockerView.Direction.DIRECTION_UP_RIGHT){
-//                    directionXY = ("当前方向：右上");
-//                }
-//                Log.e(TAG, "XY轴"+directionXY);
-//                Log.e(TAG, "-----------------------------------------------" );
-//                directionXY_Text.setText(directionXY);
             }
 
             @Override
             public void onFinish() {
-
             }
         });
         //角度
         mRockerViewXY.setOnAngleChangeListener(new MyRockerView.OnAngleChangeListener() {
             @Override
             public void onStart() {
-
             }
 
             @Override
             public void angle(double angle) {
-//                angleXY = ("当前角度："+angle);
-//                Log.e(TAG, "XY轴"+angleXY);
-//                angleXY_Text.setText(angleXY);
             }
 
             public void onDistanceShow(int xpos,int ypos)
@@ -161,43 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 TV_X.setText(xytemp);
                 xytemp = ("Y轴坐标："+PosY);
                 TV_Y.setText(xytemp);
-
-//                if(PosXLast != PosX || PosYLast != PosY)
-//                {
-//                    PosXLast = PosX;
-//                    PosYLast = PosY;
-////                    if (socket!=null)
-////                    {
-////                        if (socket.isConnected())
-////                        {
-////                            if (!socket.isOutputShutdown())
-////                            {
-////                                byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
-////
-////                                SendBuff[11] = (byte)(PosX>>8);
-////                                SendBuff[12] = (byte)PosX;
-////                                SendBuff[13] = (byte)(PosY>>8);
-////                                SendBuff[14] = (byte)PosY;
-////                                int crctem = CRC.getCRC1021(SendBuff,31);
-////                                SendBuff[31] = (byte)(crctem>>8);
-////                                SendBuff[32] = (byte)crctem;
-////
-////                                SendLen=0;
-////                                for (int i=0;i<SendBuff.length;i++)
-////                                {
-////                                    SendByteArray[SendLen++] = SendBuff[i];
-////                                }
-////                                Send_Thread send_Thread = new Send_Thread();
-////                                send_Thread.start();
-////                            }
-////                        }
-////                        else
-////                        {
-////                            Log.i("未连接", "Socket 未连接，请先连接！");
-////                            Toast.makeText(MainActivity.this,"未建立连接，请先建立连接！",Toast.LENGTH_SHORT).show();//需要开启手机通知推送
-////                        }
-////                    }
-//                }
             }
 
             @Override
@@ -257,19 +194,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     public void TimerOpenCloseBtn_clickHander(View v)
     {
         if (isStop)
         {
+            isStop = false;
             startTimer();
             btTimerOpenClose.setText("关闭定时器");
-            isStop = false;
         }
         else
         {
+            isStop = true;
             stopTimer();
             btTimerOpenClose.setText("开启定时器");
-            isStop = true;
         }
     }
 
@@ -282,16 +220,7 @@ public class MainActivity extends AppCompatActivity {
             mTimerTask = new TimerTask() {
                 @Override
                 public void run() {
-//                    Log.i(TAG, "count: "+String.valueOf(count));
                     sendMessage(UPDATE_TEXTVIEW);
-                    do {
-                        try {
-//                            Log.i(TAG, "sleep(1000)...");
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                        }
-                    } while (!isStop);
-                    count++;
                 }
             };
         }
@@ -318,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTextView(){
-//        texttime.setText(String.valueOf(count));
+        count++;
         viewtxt.setText(String.valueOf(count));
         if (socket!=null)
         {
@@ -328,10 +257,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     byte[] SendBuff = new byte[]{(byte)0xA5,(byte)0xC0,0x01,0x02,0x00,0x18,0x1A,0x00,0x03,0x07,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,(byte)0xCE,0x6F};
 
-                    SendBuff[11] = (byte)(PosX>>8);
-                    SendBuff[12] = (byte)PosX;
-                    SendBuff[13] = (byte)(PosY>>8);
-                    SendBuff[14] = (byte)PosY;
+                    SendBuff[9] = 0x0C;
+                    SendBuff[11] = (byte)(PosY>>8);
+                    SendBuff[12] = (byte)PosY;
+                    SendBuff[13] = (byte)(PosX>>8);
+                    SendBuff[14] = (byte)PosX;
                     int crctem = CRC.getCRC1021(SendBuff,31);
                     SendBuff[31] = (byte)(crctem>>8);
                     SendBuff[32] = (byte)crctem;
@@ -358,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         if (isConnect==false)
         {
 //            ConnectButton.setText("断开");
-            Log.i("连接", "创建连接线程");
+//            Log.i("连接", "创建连接线程");
             //启动连接线程
             Connect_Thread connect_Thread = new Connect_Thread();
             connect_Thread.start();
@@ -585,7 +515,7 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             if (RecvFrame.Frame_OK) {
-                                                Toast.makeText(MainActivity.this, "接收到完整数据帧", Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(MainActivity.this, "接收到完整数据帧", Toast.LENGTH_SHORT).show();
                                                 Cmd_Pro();
                                                 RecvFrame.Frame_OK = false;
                                             }
@@ -598,8 +528,10 @@ public class MainActivity extends AppCompatActivity {
                                                 sb.append((str.length()==1)? ("0"+str) : str);
                                                 sb.append(" ");
                                             }
-                                            TVRecvData.append(sb.toString().toUpperCase());
-                                            RecvEditText.append(sb.toString().toUpperCase());
+                                            TVRecvData.setText(sb.toString().toUpperCase());
+                                            RecvEditText.setText(sb.toString().toUpperCase());
+//                                            TVRecvData.append(sb.toString().toUpperCase());
+//                                            RecvEditText.append(sb.toString().toUpperCase());
                                         }
                                     });
                                 }
@@ -643,24 +575,5 @@ public class MainActivity extends AppCompatActivity {
             case 0x0B://A7PowerOffReboot_232CMD
                 break;
         }
-    }
-
-    private Boolean OpenFlag=false;
-
-    public void CloseBtn_clickHander(View v)
-    {
-        TextView txt = (TextView)findViewById(R.id.textview1);
-        Button CloseBtn = (Button)findViewById(R.id.CloseBtn);
-        if (OpenFlag)
-        {
-            txt.setText("Open Beyonne");
-            CloseBtn.setText("奔驰");
-        }
-        else
-        {
-            txt.setText("Close Bruce");
-            CloseBtn.setText("宝马");
-        }
-        OpenFlag = !OpenFlag;
     }
 }

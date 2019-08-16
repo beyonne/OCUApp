@@ -110,24 +110,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <Button
-        android:id="@+id/CloseBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:onClick="CloseBtn_clickHander"
-        android:text="关闭"
-        app:layout_constraintLeft_toRightOf="@+id/CheckVerBtn"
-        app:layout_constraintBottom_toBottomOf="@+id/CheckVerBtn"
-        />
-
     <TextView
         android:id="@+id/textview1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Hello World!"
-        app:layout_constraintTop_toBottomOf="@+id/CloseBtn"
+        app:layout_constraintTop_toBottomOf="@+id/CheckVerBtn"
         app:layout_constraintStart_toStartOf="parent"
         />
 
