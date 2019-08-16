@@ -51,14 +51,13 @@ public class MainActivity extends AppCompatActivity {
     private TimerTask mTimerTask = null;
     private Handler mHandler = null;
     private static int count = 0;
-//    private boolean isPause = false;
     private boolean isStop = true;
     private static int delay = 500; //1s
     private static int period = 500; //1s
     private static final int UPDATE_TEXTVIEW = 0;
     private Button btTimerOpenClose = null;
 
-    byte[] SendByteArray;
+    byte[] SendByteArray = new byte[50];;
     int SendLen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +70,9 @@ public class MainActivity extends AppCompatActivity {
         PortText = (EditText)findViewById(R.id.Port_EditText);//获得端口文本框按钮对象
         SendEditText = (EditText)findViewById(R.id.Send_EditText);//获得发送消息文本框对象
         TVRecvData = (TextView) findViewById(R.id.tv_recvdata);
-        Log.i("chushihua", "onCreate: 开始");
         viewtxt = (TextView)findViewById(R.id.textview1);
         int count = 0;
         SendLen = 0;
-        SendByteArray = new byte[50];
 
         btTimerOpenClose = findViewById(R.id.TimerOpenCloseBtn);
 
