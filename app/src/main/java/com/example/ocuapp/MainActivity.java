@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     EditText IPEditText;//定义ip输入框
     EditText PortText;//定义端口输入框
     EditText SendEditText;//定义信息输出框
-    EditText RecvEditText;//定义信息输入框
+//    EditText RecvEditText;//定义信息输入框
     TextView TVRecvData;
     Socket socket = null;//定义socket
     private OutputStream outputStream = null;//定义输出流
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         IPEditText = (EditText)findViewById(R.id.IP_EditText);//获得ip文本框对象
         PortText = (EditText)findViewById(R.id.Port_EditText);//获得端口文本框按钮对象
         SendEditText = (EditText)findViewById(R.id.Send_EditText);//获得发送消息文本框对象
-        RecvEditText = (EditText)findViewById(R.id.Recv_EditText);//获得接收消息文本框对象
         TVRecvData = (TextView) findViewById(R.id.tv_recvdata);
         Log.i("chushihua", "onCreate: 开始");
         viewtxt = (TextView)findViewById(R.id.textview1);
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         mRockerViewXY = (MyRockerView) findViewById(R.id.rockerXY_View);//8方向
         TV_X = findViewById(R.id.textviewX);
         TV_Y = findViewById(R.id.textviewY);
-        XYRate = 32768/135;
+        XYRate = 32768/340;//保证坐标范围在-32768~32767之间
         //摇杆点击事件
         initMyClick();
         mHandler = new Handler(){
@@ -529,7 +528,6 @@ public class MainActivity extends AppCompatActivity {
                                                 sb.append(" ");
                                             }
                                             TVRecvData.setText(sb.toString().toUpperCase());
-                                            RecvEditText.setText(sb.toString().toUpperCase());
 //                                            TVRecvData.append(sb.toString().toUpperCase());
 //                                            RecvEditText.append(sb.toString().toUpperCase());
                                         }

@@ -23,7 +23,7 @@ public class MyRockerView extends View {
 
     private static final String TAG = "RockerView";
 
-    private static final int DEFAULT_SIZE = 400;
+    private static final int DEFAULT_SIZE = 800;
     private static final float DEFAULT_ROCKER_SCALE = 0.5f;//默认半径为背景的1/2
 
     private Paint mAreaBackgroundPaint;
@@ -407,8 +407,14 @@ public class MyRockerView extends View {
         }
         if (null != mOnAngleChangeListener) {
             mOnAngleChangeListener.angle(angle);
+            Log.e(TAG, "圆心X"+mCenterPoint.x);
+            Log.e(TAG, "圆心Y"+mCenterPoint.y);
+            Log.e(TAG, "X"+mRockerPosition.x);
+            Log.e(TAG, "Y"+mRockerPosition.y);
             int xpos = mRockerPosition.x - mCenterPoint.x;
             int ypos = mCenterPoint.y - mRockerPosition.y;
+            Log.e(TAG, "xpos"+xpos);
+            Log.e(TAG, "ypos"+ypos);
             mOnAngleChangeListener.onDistanceShow(xpos,ypos);
         }
         if (null != mOnShakeListener) {
