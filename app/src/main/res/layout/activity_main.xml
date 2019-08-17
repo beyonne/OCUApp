@@ -83,11 +83,12 @@
         android:id="@+id/tv_recvdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/Send_EditText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
         android:hint="接收的内容"
         android:textColor="#000000"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Send_EditText" />
 
     <Button
         android:id="@+id/CheckVerBtn"
@@ -119,29 +120,32 @@
         android:gravity="center"
         android:onClick="TimerOpenCloseBtn_clickHander"
         android:text="开启定时器"
-        app:layout_constraintTop_toBottomOf="@+id/textview1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textviewX"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview1" />
 
     <TextView
         android:id="@+id/textviewX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:text="X轴坐标："
-        app:layout_constraintTop_toBottomOf="@+id/TimerOpenCloseBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/TimerOpenCloseBtn" />
+
     <TextView
         android:id="@+id/textviewY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:text="Y轴坐标："
-        app:layout_constraintTop_toBottomOf="@+id/textviewX"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/textviewX" />
 
 
     <!--摇杆-->
